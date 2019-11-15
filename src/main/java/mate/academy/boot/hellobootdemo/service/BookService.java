@@ -4,9 +4,10 @@ import java.util.List;
 import java.util.Optional;
 
 import mate.academy.boot.hellobootdemo.entity.Book;
+import org.springframework.data.domain.Pageable;
 
 public interface BookService {
-    List<Book> findAll();
+    List<Book> findAll(Pageable pageable);
 
     Optional<Book> findById(Long id);
 

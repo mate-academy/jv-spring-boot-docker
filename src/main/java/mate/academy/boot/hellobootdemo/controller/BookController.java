@@ -8,6 +8,9 @@ import io.swagger.annotations.ApiOperation;
 import mate.academy.boot.hellobootdemo.entity.Book;
 import mate.academy.boot.hellobootdemo.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -28,8 +32,14 @@ public class BookController {
             notes = "List all books that we have in our library",
             response = Book.class,
             responseContainer = "List")
-    public List<Book> allBooks() {
-        return bookService.findAll();
+    public List<Book> allBooks(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+                               @RequestParam(value = "limit", required = false, defaultValue = "20") Integer limit,
+                               @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,
+                               @RequestParam(value = "sortOrder", required = false, defaultValue = "asc") String sortOrder) {
+        Sort.Direction orderingDirection = Sort.Direction.fromString(sortOrder);
+        Sort sortByRequest = Sort.by(orderingDirection, sortBy);
+        Pageable pageRequest = PageRequest.of(page, limit, sortByRequest);
+        return bookService.findAll(pageRequest);
     }
 
     @GetMapping("/{bookId}")

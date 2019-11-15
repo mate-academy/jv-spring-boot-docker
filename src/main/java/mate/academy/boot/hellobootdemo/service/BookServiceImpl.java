@@ -6,6 +6,7 @@ import java.util.Optional;
 import mate.academy.boot.hellobootdemo.entity.Book;
 import mate.academy.boot.hellobootdemo.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,8 +15,8 @@ public class BookServiceImpl implements BookService {
     private BookRepository bookRepository;
 
     @Override
-    public List<Book> findAll() {
-        return bookRepository.findAll();
+    public List<Book> findAll(Pageable pageable) {
+        return bookRepository.findAll(pageable).getContent();
     }
 
     @Override

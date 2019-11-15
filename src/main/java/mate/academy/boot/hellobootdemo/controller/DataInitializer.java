@@ -31,5 +31,10 @@ public class DataInitializer {
         bookService.save(kamenyary);
         Book kamenyaryGold = new Book("Kamenyary. Gold Edition", 1990, 439.99);
         bookService.save(kamenyaryGold);
+
+        for (int i = 0; i < 3000; i++) {
+            Book book = new Book("Book" + i, 2019, Math.random()*100);
+            bookService.save(book);
+        }
     }
 }
