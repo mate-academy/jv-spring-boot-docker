@@ -32,10 +32,10 @@ public class BookController {
             notes = "List all books that we have in our library",
             response = Book.class,
             responseContainer = "List")
-    public List<Book> allBooks(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-                               @RequestParam(value = "limit", required = false, defaultValue = "20") Integer limit,
-                               @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,
-                               @RequestParam(value = "sortOrder", required = false, defaultValue = "asc") String sortOrder) {
+    public List<Book> allBooks(@RequestParam(value = "page", defaultValue = "0") Integer page,
+                               @RequestParam(value = "limit", defaultValue = "20") Integer limit,
+                               @RequestParam(value = "sortBy", defaultValue = "id") String sortBy,
+                               @RequestParam(value = "sortOrder", defaultValue = "asc") String sortOrder) {
         Sort.Direction orderingDirection = Sort.Direction.fromString(sortOrder);
         Sort sortByRequest = Sort.by(orderingDirection, sortBy);
         Pageable pageRequest = PageRequest.of(page, limit, sortByRequest);
@@ -58,7 +58,7 @@ public class BookController {
     }
 
     @PutMapping("/{bookId}")
-    public Book update(@PathVariable("bookId") Long bookId, Book book) {
-        return null;
+    public Book update(@PathVariable("bookId") Long bookId, @RequestBody Book book) {
+        return bookService.update(book, bookId);
     }
 }

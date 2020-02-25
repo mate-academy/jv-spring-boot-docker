@@ -33,4 +33,11 @@ public class BookServiceImpl implements BookService {
     public void delete(Long bookId) {
         bookRepository.deleteById(bookId);
     }
+
+    @Override
+    public Book update(Book book, Long bookId) {
+        Optional<Book> findBook = bookRepository.findById(bookId);
+        findBook.ifPresent(value -> book.setId(value.getId()));
+        return bookRepository.save(book);
+    }
 }
