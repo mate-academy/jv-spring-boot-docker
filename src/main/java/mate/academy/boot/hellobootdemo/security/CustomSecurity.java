@@ -43,6 +43,6 @@ public class CustomSecurity extends WebSecurityConfigurerAdapter {
                 .logout()
                 .invalidateHttpSession(true)
                 .and()
-                .csrf().disable(); //e
+                .csrf().disable();
     }
 }
